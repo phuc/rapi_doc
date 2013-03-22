@@ -6,6 +6,7 @@ module RapiDoc
   # ResourceDoc holds the information a resource contains. It parses the class header and also the 
   # method documentation, which will be contained in MethodDoc.
   class ResourceDoc
+    include ActionView::Helpers::TextHelper
     
     attr_reader :name, :resource_location, :controller_name, :function_blocks, :class_block
     
