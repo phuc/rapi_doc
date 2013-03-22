@@ -1,0 +1,56 @@
+<div id="method_<%=@method_order%>">
+  
+  <%
+    splitted = @method
+    str = @method
+    str = "<span id='http_verb'>#{str}</span>"
+  %>
+  <p class='description'><strong>Description:</strong> <%=@content %></p>
+
+  <h2><%=str %><%=@url %></h2>
+  
+  <% if @access %>
+    <strong>Access:</strong> <%=@access %><br />
+  <% end %>
+
+  <% if @return %>
+    <strong>Return:</strong>
+    <%=@return %>
+    <br />
+  <% end %>
+
+  <% if @variables %>  
+    <strong>Parameters:</strong>
+    <ul>
+      <% @variables.each do |v| %><li><%=v %></li><% end %>
+    </ul>
+  <% end %>
+
+  <% unless @outputs.empty? %>
+    <ul class="tabs">
+      <% @outputs.each do |output| %>
+        <li class="<%= (output == @outputs.first)? 'active' : '' %>"><a href='#<%= "#{output.keys.first}_#{@method_order}" %>'><%= output.keys.first %></a></li>
+      <% end %>
+    </ul>
+    <div class="pill-content">
+      <% @outputs.each do |output| %>
+        <% output_format = output.keys.first %>
+        <div class="<%= (output == @outputs.first)? 'active' : '' %>" id='<%= "#{output.keys.first}_#{@method_order}" %>'>
+          <pre class="prettyprint" ><%= output[output_format] %></pre>
+        </div>
+      <% end %>
+    </div>
+    <br />
+  <% end %>
+
+  <% unless @request.blank? %>
+    <strong>Request:</strong>
+    <pre class="code"><code><%= @request %></code></pre>
+  <% end %>
+
+  <% unless @response.blank? %>  
+    <strong>Response:</strong>
+    <pre class="code"><code><%= @response %></code></pre>
+  <% end %>
+
+</div>
