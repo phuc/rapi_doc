@@ -91,10 +91,10 @@ module RapiDoc
       File.open(File.join(File.dirname(__FILE__), '..', 'templates', '_resource_header.html.erb')).each { |line| template << line }
       ERB.new(template).result(@class_block.get_binding)
     end
-
+    
     def get_parsed_method(method_block, method_order)
       template = ""
-      File.open(File.join(File.dirname(__FILE__), '..', 'templates', '_resource_method.html.erb')).each { |line| template << line }
+      File.open(File.join(RapiDoc::RapiConfig.config_dir, '_resource_method.html.erb')).each { |line| template << line }
       return ERB.new(template).result(method_block.get_binding)
     end
 

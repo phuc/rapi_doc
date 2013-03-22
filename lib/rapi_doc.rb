@@ -19,34 +19,30 @@ module RapiDoc
       puts "Finished."
     end
 
-    # Iterates over the resources creates views for them.
-    # Creates an index file
     def generate_templates!
-
       @resources.each do |r|
         r.parse_apidoc!
+      end
+      
+      @resources.each do |r|
         r.generate_view!(@resources, temp_dir)
       end
+      
       generate_index!
       copy_styles!
     end
-
-    # generate the index file for the api views
+    
     def generate_index!
       template = ""
       @page_type2 = 'dudul'
       File.open(class_layout_file(:target)).each { |line| template << line }
       parsed = ERB.new(template).result(binding)
-      File.open(File.join(temp_dir, "class.html"), 'w') { |file| file.write parsed }
-    end
-
+      File.open(File.join(temp_dir, "index.html"), 'w') { |file| file.write parsed }
+    end    
+    
     def move_structure!
-      target_folder = "#{::Rails.root.to_s}/public/apidoc/"
+      target_folder = "#{::Rails.root.to_s}/public/#{public_location}/"
       Dir.mkdir(target_folder) if (!File.directory?(target_folder))
-
-      # Copy the frameset & main files
-      FileUtils.cp frameset_file(:target), target_folder + 'index.html'
-      FileUtils.cp main_file(:target), target_folder + 'main.html'
 
       Dir.new(temp_dir).each do |d|
         if d =~ /^[a-zA-Z]+\.(html|css)$/ # Only want to copy over the .html files, not the .erb templates

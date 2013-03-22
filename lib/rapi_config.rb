@@ -2,6 +2,10 @@ module RapiDoc
   module RapiConfig
     BASE_DIR = 'config/rapi_doc'
     
+    def public_location
+      "docs"
+    end
+    
     def config_dir
       File.join(::Rails.root.to_s, BASE_DIR)
     end
